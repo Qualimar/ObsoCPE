@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur de Configuration de Routeur</title>
+    <style>
+        /* Charte graphique sombre et moderne */
+        body {
+            background-color: #121212;
+            color: #E0E0E0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #BB86FC;
+        }
+
+        form {
+            background-color: #1E1E1E;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        select, input[type="file"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #3A3A3A;
+            background-color: #333333;
+            color: #E0E0E0;
+        }
+
+        button {
+            background-color: #BB86FC;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #985EFF;
+        }
+
+        button:active {
+            background-color: #7C43BD;
+        }
+
+        /* Styles pour aligner les boutons en colonnes */
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+    <script>
+        // Fonction pour mettre à jour les modèles en fonction du constructeur choisi
+        function updateModels(selectId, modelId) {
+            const models = {
+                "Cisco": ["C1117", "C887"],
+                "Juniper": ["MX204", "EX4300"],
+                "Huawei": ["AR1220", "S5700"]
+            };
+
+            const brand = document.getElementById(selectId).value;
+            const modelSelect = document.getElementById(modelId);
+
+            // Vider la liste actuelle des modèles
+            modelSelect.innerHTML = "";
+
+            // Ajouter les nouveaux modèles disponibles pour le constructeur sélectionné
+            if (brand in models) {
+                models[brand].forEach(function(model) {
+                    let option = document.createElement("option");
+                    option.text = model;
+                    option.value = model;
+                    modelSelect.add(option);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Convertisseur de Configuration</h1>
+    <form action="/convert" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <label for="brandA">Constructeur A :</label>
+            <select id="brandA" name="brandA" onchange="updateModels('brandA', 'modelA')">
+                <option value="">Sélectionner un constructeur</option>
+                <option value="Cisco">Cisco</option>
+                <option value="Juniper">Juniper</option>
+                <option value="Huawei">Huawei</option>
+            </select>
+
+            <label for="modelA">Modèle A :</label>
+            <select id="modelA" name="modelA">
+                <!-- Les modèles spécifiques seront ajoutés ici par JavaScript -->
+            </select>
+
+            <label for="brandB">Constructeur B :</label>
+            <select id="brandB" name="brandB" onchange="updateModels('brandB', 'modelB')">
+                <option value="">Sélectionner un constructeur</option>
+                <option value="Cisco">Cisco</option>
+                <option value="Juniper">Juniper</option>
+                <option value="Huawei">Huawei</option>
+            </select>
+
+            <label for="modelB">Modèle B :</label>
+            <select id="modelB" name="modelB">
+                <!-- Les modèles spécifiques seront ajoutés ici par JavaScript -->
+            </select>
+
+            <label for="config_file">Fichier de configuration :</label>
+            <input type="file" id="config_file" name="config_file" required>
+
+            <button type="submit">Convertir</button>
+        </div>
+    </form>
+</body>
+</html>
