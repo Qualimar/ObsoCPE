@@ -7,51 +7,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <header>
+        <h1>Router Config Converter</h1>
+    </header>
     <div class="container">
-        <h1>Router Configuration Converter</h1>
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="constructor_a">Constructeur A:</label>
-                <select name="constructor_a" id="constructor_a">
-                    <option value="Cisco">Cisco</option>
-                    <option value="Juniper">Juniper</option>
-                    <option value="HewlettPackard">Hewlett Packard</option>
-                    <!-- Ajoutez d'autres constructeurs ici -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="model_a">Modèle A:</label>
-                <select name="model_a" id="model_a">
-                    <option value="C1117">C1117</option>
-                    <option value="C887">C887</option>
-                    <option value="C7200">C7200</option>
-                    <!-- Ajoutez d'autres modèles ici -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="constructor_b">Constructeur B:</label>
-                <select name="constructor_b" id="constructor_b">
-                    <option value="Cisco">Cisco</option>
-                    <option value="Juniper">Juniper</option>
-                    <option value="HewlettPackard">Hewlett Packard</option>
-                    <!-- Ajoutez d'autres constructeurs ici -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="model_b">Modèle B:</label>
-                <select name="model_b" id="model_b">
-                    <option value="C9200">C9200</option>
-                    <option value="S4800">S4800</option>
-                    <option value="EX4300">EX4300</option>
-                    <!-- Ajoutez d'autres modèles ici -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="config_file">Fichier de Configuration:</label>
-                <input type="file" name="config_file" id="config_file" required>
-            </div>
-            <button type="submit">Convertir</button>
+        <form id="converterForm" method="POST" action="/convert" enctype="multipart/form-data">
+            <label for="constructeurA">Constructeur A:</label>
+            <select id="constructeurA" name="constructeurA">
+                <option value="">Select Constructor A</option>
+                <option value="Cisco">Cisco</option>
+                <option value="Juniper">Juniper</option>
+                <!-- Add more constructors if needed -->
+            </select>
+            
+            <label for="modeleA">Modèle A:</label>
+            <select id="modeleA" name="modeleA">
+                <!-- Models will be populated based on the selected Constructor A -->
+            </select>
+            
+            <label for="constructeurB">Constructeur B:</label>
+            <select id="constructeurB" name="constructeurB">
+                <!-- Constructors B will be populated based on the selected Model A -->
+            </select>
+            
+            <label for="modeleB">Modèle B:</label>
+            <select id="modeleB" name="modeleB">
+                <!-- Models will be populated based on the selected Constructor B -->
+            </select>
+            
+            <label for="configFile">Upload Configuration File:</label>
+            <input type="file" id="configFile" name="configFile" required>
+            
+            <button type="submit">Convert</button>
         </form>
     </div>
+
+    <footer>
+        &copy; 2024 Router Config Converter
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

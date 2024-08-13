@@ -1,14 +1,7 @@
-from flask import Flask, request, render_template, send_file
+from flask import Flask, render_template, request, send_file
 import os
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads/'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Fonction fictive pour simuler la conversion de configuration
-def convert_config(config_text, brand, model):
-    # Logique simplifiée de conversion
-    return f"Configuration convertie pour {brand} {model}.\nConfig originale:\n{config_text}"
 
 @app.route('/')
 def index():
@@ -16,25 +9,22 @@ def index():
 
 @app.route('/convert', methods=['POST'])
 def convert():
-    if 'config_file' not in request.files:
-        return 'Pas de fichier sélectionné', 400
+    constructeur_a = request.form['constructeurA']
+    modele_a = request.form['modeleA']
+    constructeur_b = request.form['constructeurB']
+    modele_b = request.form['modeleB']
+    config_file = request.files['configFile']
 
-    file = request.files['config_file']
-    if file.filename == '':
-        return 'Fichier non sélectionné', 400
+    # Placeholder for conversion logic
+    # You would write logic to parse and convert the config file based on modele_a and modele_b
+    # For now, let's assume the conversion is a simple passthrough
+    converted_content = config_file.read()
 
-    if file:
-        config_text = file.read().decode('utf-8')
-        brand = request.form['brand']
-        model = request.form['model']
+    output_filename = f"{modele_b}_converted.txt"
+    with open(output_filename, 'wb') as f:
+        f.write(converted_content)
 
-        converted_config = convert_config(config_text, brand, model)
-
-        output_filename = os.path.join(UPLOAD_FOLDER, 'converted_config.txt')
-        with open(output_filename, 'w') as f:
-            f.write(converted_config)
-
-        return send_file(output_filename, as_attachment=True, download_name='converted_config.txt')
+    return send_file(output_filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)
