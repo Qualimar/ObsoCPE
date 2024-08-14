@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, send_file
 import os
+from config_parser import convert_config
 
 app = Flask(__name__)
 
@@ -15,13 +16,14 @@ def convert():
     modele_b = request.form['modeleB']
     config_file = request.files['configFile']
 
-    # Placeholder for conversion logic
-    # You would write logic to parse and convert the config file based on modele_a and modele_b
-    # For now, let's assume the conversion is a simple passthrough
-    converted_content = config_file.read()
+    # Lire le contenu du fichier de configuration
+    config_data = config_file.read().decode('utf-8')
+
+    # Convertir le fichier de configuration
+    converted_content = convert_config(constructeur_a, modele_a, constructeur_b, modele_b, config_data)
 
     output_filename = f"{modele_b}_converted.txt"
-    with open(output_filename, 'wb') as f:
+    with open(output_filename, 'w') as f:
         f.write(converted_content)
 
     return send_file(output_filename, as_attachment=True)
